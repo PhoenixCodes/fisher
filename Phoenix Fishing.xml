@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.0">
+    <AliasPackage>
+        <AliasGroup isActive="yes" isFolder="yes">
+            <name>Phoenix Fisher</name>
+            <script></script>
+            <command></command>
+            <packageName></packageName>
+            <regex></regex>
+            <Alias isActive="yes" isFolder="no">
+                <name>Reset Catch</name>
+                <script>matches[2] = matches[2] or &quot;me&quot;
+phoenix.fisher.reset(matches[2]:lower())
+</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^fr(?: (\w+))?$</regex>
+            </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>Show Catch</name>
+                <script>phoenix.fisher.fishDisplay(matches[2])</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^fs(?: (.+))?$</regex>
+            </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>Bait Hook</name>
+                <script>phoenix.fisher.bait(matches[2],matches[3])
+
+</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^bait(?:(?: hook with)? (\w+))??(?: from (\w+))?$</regex>
+            </Alias>
+            <Alias isActive="yes" isFolder="no">
+                <name>Cast Line</name>
+                <script>phoenix.fisher.cast(matches[2])</script>
+                <command></command>
+                <packageName></packageName>
+                <regex>^cast(?: (\w+))?$</regex>
+            </Alias>
+        </AliasGroup>
+    </AliasPackage>
+    <TriggerPackage>
+        <TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+            <name>Phoenix Fisher</name>
+            <script></script>
+            <triggerType>0</triggerType>
+            <conditonLineDelta>0</conditonLineDelta>
+            <mStayOpen>0</mStayOpen>
+            <mCommand></mCommand>
+            <packageName></packageName>
+            <mFgColor>#ff0000</mFgColor>
+            <mBgColor>#ffff00</mBgColor>
+            <mSoundFile></mSoundFile>
+            <colorTriggerFgColor>#000000</colorTriggerFgColor>
+            <colorTriggerBgColor>#000000</colorTriggerBgColor>
+            <regexCodeList/>
+            <regexCodePropertyList/>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishCast</name>
+                <script>phoenix.fisher.linelength = matches[2]*1
+</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^You cock back your arm and smoothly cast your line over the railing into the nearby water\. You judge the cast at about (\d+) feet\.$</string>
+                    <string>^You cock back your arm and smoothly cast a line into the nearby water\. You judge the cast at about (\d+) feet\.$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishTease</name>
+                <script>if phoenix.fisher.fishTimer then killTimer(phoenix.fisher.fishTimer) end
+phoenix.fisher.fishTimer = tempTimer(phoenix.fisher.teaseTime,  [[send(&quot;queue add eqbal tease line&quot;,false)]])
+deleteLine()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>You feel a fish make a small strike at your bait.</string>
+                    <string>You feel a fish nibbling on your hook.</string>
+                    <string>You see the water ripple as a fish makes a medium strike at your bait.</string>
+                    <string>You quickly jerk back your fishing pole, but the hook pulls free of the fish.</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>3</integer>
+                    <integer>3</integer>
+                    <integer>3</integer>
+                    <integer>3</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishHooked</name>
+                <script>send(&quot;queue add eqbal reel line&quot;,false)
+deleteLine()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>99</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>You quickly jerk back your fishing pole and feel the line go taut. You've hooked</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>2</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishJerk</name>
+                <script>if phoenix.fisher.fishTimer then killTimer(phoenix.fisher.fishTimer) end
+phoenix.fisher.fishTimer = tempTimer(phoenix.fisher.jerkTime,  [[send(&quot;queue add eqbal jerk pole&quot;,false)]])
+deleteLine()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>You stagger as a fish makes a large strike at your bait.</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>3</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishReel</name>
+                <script>send(&quot;queue add eqbal reel line&quot;,false)
+deleteLine()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>Relaxing the tension on your line, you are able to reel again.</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>3</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishLength</name>
+                <script>phoenix.fisher.linelength = tonumber(matches[2])
+deleteLine()</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>You have (\d+) f(?:oo|ee)t of line left to bring in\.$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishPull</name>
+                <script>local linelength = phoenix.fisher.linelength
+if matches[3] then
+  phoenix.fisher.fishType = matches[2]
+  linelength = linelength + tonumber(matches[3])
+else
+  linelength = linelength + tonumber(matches[2])
+end
+deleteLine()
+phoenix.fisher.linelength = linelength</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^Dodging back and forth furiously, your fish draws out (\d+) f(?:oo|ee)t of line\.$</string>
+                    <string>^Leaping from the water in a frenzy to escape, (.+) runs out (\d+) f(?:oo|ee)t of your line\.$</string>
+                    <string>^The fish on your line shows its power by running out (\d+) f(?:oo|ee)t of line\.$</string>
+                    <string>^The fish tries to swim with the hook, drawing (\d+) f(?:oo|ee)t of line\.$</string>
+                    <string>^The fish you've hooked struggles against the line and runs it out (\d+) f(?:oo|ee)t\.$</string>
+                    <string>^Tugging powerfully, your fish draws out (\d+) f(?:oo|ee)t of line\.$</string>
+                    <string>^With a power born of the Seagod, an? (.+) leaps from the water explosively, running the line out (\d+) f(?:oo|ee)t\.$</string>
+                    <string>^With a pull that threatens to rip the pole from your hand, the fish you've hooked runs out (\d+) f(?:oo|ee)t of line\.$</string>
+                    <string>^With an arm-wrenching burst of power, the fish you've hooked runs out (\d+) f(?:oo|ee)t of fishing line\.$</string>
+                    <string>^You feel the fish tugging on your line, drawing it out about (\d+) f(?:oo|ee)t\.$</string>
+                    <string>^Your fish struggles and swims firmly away from you, drawing out (\d+) f(?:oo|ee)t of fishing line.$</string>
+                    <string>^Your rod bends slightly as your fish tries to escape its barbed tether, running out (\d+) f(?:oo|ee)t of line\.$</string>
+                    <string>^You feel the fish tugging on your line, drawing it out about (\d+) f(?:oo|ee)t\.$</string>
+                    <string>^The fish tries to swim with the hook, drawing (\d+) f(?:oo|ee)t of line\.</string>
+                    <string>^Your rod bends slightly as your fish tries to escape its barbed tether, running out (\d+) f(?:oo|ee)t of line\.$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishCaught</name>
+                <script>deleteLine()
+phoenix.fisher.fishParse(matches[2],matches[3],matches[4],nil,true)
+phoenix.fisher.linelength = 0
+phoenix.fisher.fishType = nil
+phoenix.fisher.bait()
+phoenix.fisher.cast()
+
+--[[ The five lines in regex, in case someone wants to  know them!
+^With a final tug, you finish reeling in the line and land (.+) weighing (\d+) pounds(?: and (\d+) ounces?)?!$
+^With a style born of skill, you reel in (.+) in a single smooth motion\. It looks to weigh (\d+) pounds(?: and (\d+) ounces?)?\.$
+^You quickly reel in (.+), landing it with ease! It looks to weigh (\d+) pounds(?: and (\d+) ounces?)?\.$
+^You reel in the last bit of line and your struggle is over\. You've landed (.+) weighing (\d+) pounds(?: and (\d+) ounces?)?\.$
+^You've landed (.+) weighing (\d+) pounds(?: and (\d+) ounces?)?\.$
+]]
+</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>12</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^With a final tug, you finish reeling in the line and land (.+) weighing (\d+) pounds(?: and (\d+) ounces?)?!$</string>
+                    <string>^With a style born of skill, you reel in (.+) in a single smooth motion\. It looks to weigh (\d+) pounds(?: and (\d+) ounces?)?\.$</string>
+                    <string>^You quickly reel in (.+), landing it with ease! It looks to weigh (\d+) pounds(?: and (\d+) ounces?)?\.$</string>
+                    <string>^You reel in the last bit of line and your struggle is over\. You've landed (.+) weighing (\d+) pounds(?: and (\d+) ounces?)?\.$</string>
+                    <string>^You've landed (.+) weighing (\d+) pounds(?: and (\d+) ounces?)?\.$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>Phish NoLine</name>
+                <script>phoenix.fisher.linelength = 0
+phoenix.fisher.fishType = nil
+</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>8</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>You reel your line in completely.</string>
+                    <string>A wave rises before the ship, rapidly increasing in size to an immense swell of water that slams into the ship, catapulting it to the</string>
+                    <string>Your line snaps or fouls and you lose your bait.</string>
+                    <string>You didn't cast your line, so there's no need to reel it.</string>
+                    <string>As the fish strains your line beyond its breaking point, it snaps suddenly, costing you your fish and bait.</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>3</integer>
+                    <integer>2</integer>
+                    <integer>3</integer>
+                    <integer>3</integer>
+                    <integer>3</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>Phish OtherCatch</name>
+                <script>phoenix.fisher.fishParse(matches[3],matches[4],matches[5],matches[2]:lower(),true)</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>0</conditonLineDelta>
+                <mStayOpen>0</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>^With a final tug, (\w+) finishes reeling in h(?:is|er) fishing line and lands (.+) weighing (\d+) pounds(?: and (\d+) ounces?)?!$</string>
+                    <string>^(\w+) reels in the last bit of h(?:is|er) line and lands (.+) weighing (\d+) pounds(?: and (\d+) ounces?)?\.$</string>
+                    <string>^With a style born of skill, (\w+) reels in (.+) in a single smooth motion\. It looks to weigh (\d+) pounds(?: and (\d+) ounces?)?\.$</string>
+                    <string>^(\w+) quickly reels in (.+), landing it with ease! It looks to weigh (\d+) pounds(?: and (\d+) ounces?)?\.$</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                    <integer>1</integer>
+                </regexCodePropertyList>
+            </Trigger>
+            <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="yes" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                <name>PhishList Catcher</name>
+                <script>phoenix.fisher.reset(&quot;me&quot;,false)
+</script>
+                <triggerType>0</triggerType>
+                <conditonLineDelta>1</conditonLineDelta>
+                <mStayOpen>3</mStayOpen>
+                <mCommand></mCommand>
+                <packageName></packageName>
+                <mFgColor>#ff0000</mFgColor>
+                <mBgColor>#ffff00</mBgColor>
+                <mSoundFile></mSoundFile>
+                <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                <regexCodeList>
+                    <string>ID              Description                    Size       Weight     Months     </string>
+                    <string>-------------------------------------------------------------------------------</string>
+                </regexCodeList>
+                <regexCodePropertyList>
+                    <integer>3</integer>
+                    <integer>3</integer>
+                </regexCodePropertyList>
+                <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                    <name>PhishList Item</name>
+                    <script>setTriggerStayOpen(&quot;PhishList Catcher&quot;,3)
+phoenix.fisher.fishParse(matches[2],0,matches[3],nil,false)</script>
+                    <triggerType>0</triggerType>
+                    <conditonLineDelta>0</conditonLineDelta>
+                    <mStayOpen>1</mStayOpen>
+                    <mCommand></mCommand>
+                    <packageName></packageName>
+                    <mFgColor>#ff0000</mFgColor>
+                    <mBgColor>#ffff00</mBgColor>
+                    <mSoundFile></mSoundFile>
+                    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                    <regexCodeList>
+                        <string>^\w+\s+(.+?)\s+\w+\s+(\d+)\s+&lt;?\d+$</string>
+                    </regexCodeList>
+                    <regexCodePropertyList>
+                        <integer>1</integer>
+                    </regexCodePropertyList>
+                    <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                        <name>PhishList Close</name>
+                        <script>setTriggerStayOpen(&quot;PhishList Catcher&quot;,0)
+setTriggerStayOpen(&quot;PhishList Item&quot;,0)
+echo(&quot;\nTotal worth: &quot;.. phoenix.fisher.fishTable[&quot;me&quot;].total.cost ..&quot;gp&quot;)
+</script>
+                        <triggerType>0</triggerType>
+                        <conditonLineDelta>0</conditonLineDelta>
+                        <mStayOpen>0</mStayOpen>
+                        <mCommand></mCommand>
+                        <packageName></packageName>
+                        <mFgColor>#ff0000</mFgColor>
+                        <mBgColor>#ffff00</mBgColor>
+                        <mSoundFile></mSoundFile>
+                        <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                        <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                        <regexCodeList>
+                            <string>-------------------------------------------------------------------------------</string>
+                        </regexCodeList>
+                        <regexCodePropertyList>
+                            <integer>3</integer>
+                        </regexCodePropertyList>
+                    </Trigger>
+                </Trigger>
+                <Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+                    <name>PhishList More</name>
+                    <script>send(&quot;more&quot;,false)
+setTriggerStayOpen(&quot;PhishList Catcher&quot;,0)
+setTriggerStayOpen(&quot;PhishList Item&quot;,0)
+
+phoenix.fisher.FishListMore = tempTrigger(&quot;[File continued via MORE]&quot;, [[
+  setTriggerStayOpen(&quot;PhishList Catcher&quot;,3) 
+  killTrigger(phoenix.fisher.FishListMore)  ]])</script>
+                    <triggerType>0</triggerType>
+                    <conditonLineDelta>0</conditonLineDelta>
+                    <mStayOpen>0</mStayOpen>
+                    <mCommand></mCommand>
+                    <packageName></packageName>
+                    <mFgColor>#ff0000</mFgColor>
+                    <mBgColor>#ffff00</mBgColor>
+                    <mSoundFile></mSoundFile>
+                    <colorTriggerFgColor>#000000</colorTriggerFgColor>
+                    <colorTriggerBgColor>#000000</colorTriggerBgColor>
+                    <regexCodeList>
+                        <string>[Type MORE if you wish to continue reading.</string>
+                    </regexCodeList>
+                    <regexCodePropertyList>
+                        <integer>2</integer>
+                    </regexCodePropertyList>
+                </Trigger>
+            </Trigger>
+        </TriggerGroup>
+    </TriggerPackage>
+    <ScriptPackage>
+        <ScriptGroup isActive="yes" isFolder="yes">
+            <name>Phoenix Fisher</name>
+            <packageName></packageName>
+            <script>
+-- Initiate namespace
+phoenix = phoenix or {}
+phoenix.fisher = phoenix.fisher or {}</script>
+            <eventHandlerList/>
+            <Script isActive="yes" isFolder="no">
+                <name>Phoenix Fisher Constants</name>
+                <packageName></packageName>
+                <script>-- These are the constants that the script uses. Unless you know what you are doing, do not modify these.
+local me = phoenix.fisher
+
+me.jerkTime  = 1.8 -- In seconds, modify if you wish.
+me.teaseTime = 2.2 -- also in seconds. Also modify if you wish.
+
+me.fish_costs = {
+ [&quot;a coelacanth&quot;]  = 0.34525,
+ [&quot;a spotted fangtooth&quot;]     = 0.34537,
+ [&quot;a giant hatchetfish&quot;]     = 0.4027,
+ [&quot;a two-headed fish&quot;]       = 0.3452,
+ [&quot;a whiskerknot skrei&quot;]     = 0.3449,
+ [&quot;a peppermint stripefish&quot;] = 0.3451,
+ [&quot;a redfin tuna&quot;]           = 0.34535,
+ [&quot;a duskfin tuna&quot;]          = 0.34535,
+ [&quot;riverfish &amp; lakefish&quot;]    = 0.48, 
+ [&quot;bass &amp; carp&quot;]             = 0.48,
+}
+
+me.fish_Order = {
+&quot;a whiskerknot skrei&quot;,
+&quot;a peppermint stripefish&quot;,
+&quot;a two-headed fish&quot;,
+&quot;a giant hatchetfish&quot;,
+&quot;a coelacanth&quot;,
+&quot;a spotted fangtooth&quot;,
+&quot;a redfin tuna&quot;,
+&quot;a duskfin tuna&quot;,
+&quot;riverfish &amp; lakefish&quot;,
+&quot;bass &amp; carp&quot;,
+&quot;total&quot;,}
+
+me.fishTable = me.fishTable or {
+  me = {
+    [&quot;a coelacanth&quot;]            = {weight = 0, cost = 0},
+    [&quot;a spotted fangtooth&quot;]     = {weight = 0, cost = 0},
+    [&quot;a giant hatchetfish&quot;]     = {weight = 0, cost = 0},
+    [&quot;a two-headed fish&quot;]       = {weight = 0, cost = 0},
+    [&quot;a whiskerknot skrei&quot;]     = {weight = 0, cost = 0},
+    [&quot;a peppermint stripefish&quot;] = {weight = 0, cost = 0},
+    [&quot;a redfin tuna&quot;]           = {weight = 0, cost = 0},
+    [&quot;a duskfin tuna&quot;]          = {weight = 0, cost = 0},
+    [&quot;riverfish &amp; lakefish&quot;]    = {weight = 0, cost = 0},
+    [&quot;bass &amp; carp&quot;]             = {weight = 0, cost = 0},
+    [&quot;total&quot;]                   = {weight = 0, cost = 0} 
+   }
+}</script>
+                <eventHandlerList/>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>Phoenix Fisher Functions</name>
+                <packageName></packageName>
+                <script>local me = phoenix.fisher
+
+function me.bait(what, where)
+  local self = me
+  if what == &quot;&quot; then what = nil end
+  self.baitType = what or self.baitType
+  if where == &quot;nowhere&quot; then
+    self.tank = nil
+  else
+    self.tank = where or self.tank
+  end
+  if self.tank and self.baitType then send(&quot;queue add eqbal get &quot; .. self.baitType .. &quot; from &quot; .. self.tank,false) end
+  send(&quot;queue add eqbal bait hook with &quot; .. (self.baitType or &quot;&quot;), false)
+end
+
+function me.cast(dir)
+  local self = me
+  self.castDir = dir or self.castDir or &quot;&quot;
+  send(&quot;queue add eqbal cast line &quot; .. self.castDir, false)
+end
+
+function me.reset(person, echoback)
+  local self = phoenix.fisher
+  local totalcost
+  person = person and person:lower() or &quot;me&quot;
+  if not self.fishTable[person] then
+    self.fishTable[person] = {}
+    for k,v in pairs(self.fish_Order) do
+      self.fishTable[person][v] = {weight = 0, cost = 0}
+    end
+  end
+  totalcost = self.fishTable[person].total.cost -- catch their cost for later before resetting
+  for k,v in pairs(self.fishTable[person]) do
+    self.fishTable[person][k] = {weight = 0, cost = 0}
+  end
+  if echoback ~= false then
+    if person == &quot;me&quot; then
+      cecho(&quot;\n&lt;white&gt;Your fishing totals were reset. Your catch was worth &lt;green&gt;&quot;..
+             totalcost..&quot;&lt;grey&gt;gp.&quot;)
+    else
+      cecho(&quot;&lt;white&gt;&quot;..person:title()..&quot;'s fishing totals were reset. Their catch was worth &lt;green&gt;&quot;..
+             totalcost..&quot;&lt;grey&gt;gp.&quot;)
+    end
+  end
+end
+
+function me.fishParse(type, pounds, ounces, person, bool)
+  local self = phoenix.fisher
+  if not self.fish_costs[type] then  return end -- if we aren't familiar with the type of fish, do nothing
+-- local variable initiation
+  local person = person and person:lower() or &quot;me&quot;
+  local cost = 0
+  local pounds = pounds*1
+  local ounces = ounces and ounces*1 or 0
+  local fishTable = self.fishTable
+-- global variable initiation
+  if not fishTable[person] then -- initialize person's table if it hasn't been yet
+    fishTable[person] = {}
+    for k,v in pairs(self.fish_Order) do
+      fishTable[person][v] = {weight = 0, cost = 0}
+    end
+  end
+-- calculate math
+  ounces = pounds*16 + ounces -- convert weights to ounces
+  cost = math.round(self.fish_costs[type]*ounces) -- figure worth of this fish
+  fishTable[person][type].weight =  fishTable[person][type].weight + ounces -- add weight of all this fish type. Do not do math on the total weights, Achaea does them per fish.
+  fishTable[person][type].cost =  fishTable[person][type].cost + cost -- add cost to costs of this fish type. 
+  fishTable[person].total.weight =  fishTable[person].total.weight + ounces -- add weight to total weight caught
+  fishTable[person].total.cost =  fishTable[person].total.cost + cost -- add costs to total costs
+-- Do we display the catch, or echo it's worth after the line?
+  if bool then 
+    self.fishShow(type:title(), pounds, ounces%16, cost, person) -- display it
+  else
+    cecho(&quot;     &lt;green:black&gt;&quot; .. cost .. &quot;gp&quot;) -- echo it
+  end
+end
+
+function me.fishShow (type, pounds, ounces, cost, person)
+  deleteLine()
+  local Person
+  if person == &quot;me&quot; then Person = &quot;you&quot; else Person = person end
+  cecho(&quot;\n&lt;grey&gt;&quot; .. person:title() .. &quot; caught &quot; .. type:lower()..&quot;!&quot;)
+  cecho(&quot;\n&lt;grey&gt;Weighed: &quot;.. pounds .. &quot;lbs, &quot; ..ounces ..&quot;oz \nWorth: &quot;..cost..&quot;gp&quot;)
+  cecho(&quot;\n&lt;grey&gt;Total worth: &quot;.. phoenix.fisher.fishTable[person].total.cost ..&quot;gp&quot;)
+end
+
+function me.fishDisplay(person)
+-- initialize variables. Person is initialized by the function.
+   local name
+   local weight
+   local weight1
+   local weight2
+   local worth
+   local rep
+   local fishTable = phoenix.fisher.fishTable -- localize fishTable for ease of use
+-- quick standardization on our passed in variable
+   person = person and person:lower() or &quot;me&quot;
+-- Run through the ipairs fish_Order, so we display in the order we want.
+   for _,v in ipairs(phoenix.fisher.fish_Order) do
+--    set our local variables, for use when displaying this line
+      name = v
+      weight = fishTable[person][v].weight
+      weight1 = math.floor(weight/16) 
+      weight2 = weight % 16
+      worth = fishTable[person][v].cost
+      if v ~= &quot;total&quot; then rep = &quot; &quot; else rep = &quot;-&quot; end -- use a different repeating char for the total line
+--    do the actual displaying of each line
+      cecho(&quot;\n&lt;white&gt;&quot;.. name .. &quot; &lt;grey&gt;&quot;..string.rep(rep,24-string.len(name))..
+            &quot; &lt;white&gt;Weight: &lt;green&gt;&quot; ..weight1..&quot;&lt;grey&gt;lbs,&lt;green&gt;&quot;..weight2..
+            &quot;&lt;grey&gt;oz &quot; .. string.rep(rep,19-string.len(weight1..weight2))..
+            &quot; &lt;white&gt;Worth: &lt;green&gt;&quot;..worth..&quot;&lt;grey&gt;gp&quot;)
+   end
+end
+
+function me.lineDisplay() -- this function can be cecho'd or used in conjunction with svo custom prompt
+  local linelength = phoenix.fisher.linelength
+  if linelength and linelength &gt; 0 then
+    return &quot;\n&lt;yellow&gt;LineLength: &lt;red&gt;&quot; .. linelength
+  else
+  return &quot;&quot;
+  end
+end
+
+function me.fishTypeDisplay() -- same as above function, for fish type
+  local fishType = phoenix.fisher.fishType
+  if fishType then
+    return &quot;&lt;yellow&gt;Fish Type: &lt;red&gt;&quot; .. fishType
+  else
+  return &quot;&quot;
+  end
+end
+
+
+function me.svoTags()
+  if svo then -- if svo isn't installed, none of this will happen
+    svo.adddefinition(&quot;@line&quot;,[[phoenix.fisher.lineDisplay()]])     -- provides svo the @line custom prompt tag
+    svo.adddefinition(&quot;@fish&quot;,[[phoenix.fisher.fishTypeDisplay()]]) -- provides svo the @fish custom prompt tag
+  end
+end
+
+registerAnonymousEventHandler(&quot;svo system loaded&quot;, &quot;phoenix.fisher.svoTags&quot;)
+</script>
+                <eventHandlerList/>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>svo example</name>
+                <packageName></packageName>
+                <script>if true then return end -- remove this line to make this work
+
+function targetDisplay()
+  if target then
+    return &quot;&lt;white&gt;Target: &lt;yellow&gt;&quot; .. target
+  else
+    return &quot;&lt;white&gt;Target: &lt;red&gt; NONE&quot;
+  end
+end
+
+function lineDisplay() -- a version of lineDisplay() that returns either the line, or if the line doesn't exist, the target
+  if linelength and linelength &gt; 0 then
+    return &quot;\n&lt;yellow&gt;LineLength: &lt;red&gt;&quot; .. linelength
+  else
+    return targetDisplay()
+  end
+end
+
+tempTimer(2, [[if svo then svo.adddefinition(&quot;@target&quot;, [=[ lineDisplay() ]=]) end ]])
+</script>
+                <eventHandlerList/>
+            </Script>
+            <Script isActive="yes" isFolder="no">
+                <name>API - READ ME</name>
+                <packageName></packageName>
+                <script>--[=[ This is the API. Read this to understand how to use Phoenix Fisher
+
+Aliases:
+
+Bait Hook
+Syntax: bait
+        bait &lt;type&gt; | bait hook with &lt;type&gt;
+        bait from &lt;location&gt;
+        bait &lt;type&gt; from &lt;location&gt; | bait hook with &lt;type&gt; from &lt;location&gt;
+
+This alias will remember the last used type of bait, as well as the last used location you are
+pulling your bait from. Use the location 'nowhere' to go back to using only bait in your 
+inventory. It utilizes the server-side queueing to be able to be used off balance.
+EX: bait carp from tank
+
+Cast Line
+Syntax: cast
+        cast &lt;dir&gt;
+
+This alias will remember the last used casting direction or length. It utilizes the server-side
+queueing to be able to be used off balance.
+EX: cast short
+
+Show catch:
+Syntax: fs
+        fs &lt;person&gt;
+
+This will show you the current catch size and worth, with a breakdown by fish type, for yourself
+or the specified person. This is usually accurate to within 10gp of the actual sale price.
+EX: fs myfriend
+
+Reset catch: 
+Syntax: fr
+        fr &lt;person&gt;
+
+This will reset the catch of yourself or the specified person. It will also inform you what the
+catch was worth. You cannot undo this action.
+EX: fr myfriend
+
+Check inventory
+Syntax: fishlist
+
+This utilizes Achaea's 'fishlist' feature to see all fish in your inventory. It will reset your
+catch at the start, and then repopulate it based on the fish it finds in fishlist - useful if you
+were given some fish, lost some fish to decay (or cooking), or just want to make sure you got
+all of them.
+EX: Just use fishlist! AB SURVIVAL LISTS
+
+
+
+Functions:
+
+phoenix.fisher.bait([what[, where]])
+The 'what' argument tells it what bait to use, and the 'where' argument tells it where you want 
+to get it from. In the event either is left nil, the function will use the last used location.
+Use 'nowhere' in the second argument to clear the place you were getting bait from, and go back
+to inventory bait only.
+
+phoenix.fisher.cast([direction])
+This function will cast in the direction specified, or the last direction used. Direction is
+optional
+
+phoenix.fisher.lineDisplay()
+This function will return a string that is usable in cecho. It will show the length of your line,
+only if your line is currently cast. Otherwise, it will show nothing.
+
+phoenix.fisher.fishTypeDisplay()
+This function will return the type of fish currently on your hook, if it was noticeable while
+reeling. Note, it's not always possible to tell what type of fish is on the hook!
+
+phoenix.fisher.reset([person[, echoback]])
+This will reset the total catch for a person, starting their count over from the beginning. If
+person is left blank, will default to your own catch. The echoback argument is optional - if
+false, it will silently reset the count
+
+phoenix.fisher.fishDisplay([person])
+This will show you the worth of person's fish. If the argument is left out, it will default to
+your own catch.
+
+
+]=]
+</script>
+                <eventHandlerList/>
+            </Script>
+        </ScriptGroup>
+    </ScriptPackage>
+</MudletPackage>
